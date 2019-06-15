@@ -33,7 +33,7 @@ CREATE TABLE ngcp-cdr (
     peer_auth_realm TEXT DEFAULT '',
     call_type TEXT DEFAULT '',
     call_status TEXT DEFAULT '',
-    call_code TEXT DEFAULT '',
+    call_code SMALLINT DEFAULT 0,
     init_time INTEGER DEFAULT 0,
     "time" INTEGER DEFAULT 0,
     duration INTEGER DEFAULT 0,
