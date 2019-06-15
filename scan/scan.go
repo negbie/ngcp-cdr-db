@@ -3,6 +3,7 @@ package scan
 import (
 	"bytes"
 	"encoding/csv"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -122,9 +123,7 @@ func (c *CSVInput) Run() {
 			record := strings.Join(records, ",")
 			rows = append(rows, record)
 
-			/* 			for k := range records {
-				fmt.Println(headers[k] + "=" + records[k])
-			} */
+			//printSchema(headers, records)
 
 			linesRead++
 			if len(rows) >= c.batchSize {
@@ -173,4 +172,19 @@ func cutSpace(str string) string {
 		}
 		return r
 	}, str)
+}
+
+func printSchema(header, rows []string) {
+	fmt.Println("##########################")
+	for k := range header {
+		fmt.Println(header[k] + "=" + rows[k])
+	}
+	fmt.Println("##########################")
+	for k := range header {
+		fmt.Printf("CREATE INDEX IF NOT EXISTS %s_%s ON %s (\"%s\");\n", config.Setting.CDRDBTable, header[k], config.Setting.CDRDBTable, header[k])
+	}
+	fmt.Println("##########################")
+	for k := range header {
+		fmt.Printf("%s TEXT DEFAULT '',\n", header[k])
+	}
 }
