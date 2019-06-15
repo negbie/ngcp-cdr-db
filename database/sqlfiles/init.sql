@@ -63,7 +63,7 @@ CREATE TABLE ngcp-cdr (
     destination_reseller_cost TEXT DEFAULT '',
     destination_reseller_zone TEXT DEFAULT '',
     destination_reseller_detail TEXT DEFAULT '',
-    trunk TEXT DEFAULT '',
+    trunk TEXT DEFAULT ''
 );
 
 

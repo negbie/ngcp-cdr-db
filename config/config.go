@@ -10,8 +10,8 @@ type Configuration struct {
 	CDRDBHost      string        `default:"localhost"`
 	CDRDBPort      int           `default:"5432"`
 	CDRDBName      string        `default:"vmess"`
-	CDRDBUser      string        `default:"admin"`
-	CDRDBPass      string        `default:"admin"`
+	CDRDBUser      string        `default:"ngcp-cdr"`
+	CDRDBPass      string        `default:"ngcp-cdr"`
 	CDRDBTable     string        `default:"ngcp_cdr"`
 	CDRDBSchema    string        `default:"public"`
 	CSVTimeColumn  string        `default:"start_time"`
