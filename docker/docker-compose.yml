@@ -1,16 +1,29 @@
-version: '3.1'
-services :
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+
   db:
-    image: postgres:11-alpine
+    image: timescale/timescaledb:latest-pg11
     environment:
       POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    volumes:
+      - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+    expose:
+      - 5432
     ports:
-      - "5432:5432"
-  admin:
-    image: adminer
+      - 5432:5432
+
+  adminer:
+    image: adminer:standalone
     depends_on: 
       - db
     ports:
-      - 8080:8080
-
+      - 8082:8080
 

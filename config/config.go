@@ -10,8 +10,8 @@ type Configuration struct {
 	CDRDBHost      string        `default:"localhost"`
 	CDRDBPort      int           `default:"5432"`
 	CDRDBName      string        `default:"vmess"`
-	CDRDBUser      string        `default:"ngcp-cdr"`
-	CDRDBPass      string        `default:"ngcp-cdr"`
+	CDRDBUser      string        `default:"root"`
+	CDRDBPass      string        `default:"root"`
 	CDRDBTable     string        `default:"ngcp_cdr"`
 	CDRDBSchema    string        `default:"public"`
 	CSVTimeColumn  string        `default:"start_time"`
@@ -30,6 +30,6 @@ type Configuration struct {
 	LogStd         bool          `default:"false"`
 	LogSys         bool          `default:"false"`
 	ConfigFile     string        `default:"./ngcp-cdr-db.toml"`
-	DryRun         bool          `default:"true"`
+	DryRun         bool          `default:"false"`
 	Version        bool          `default:"false"`
 }

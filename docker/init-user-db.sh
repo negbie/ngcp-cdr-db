@@ -1,3 +1,8 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+
     CREATE DATABASE vmess;
     CREATE USER admin WITH PASSWORD 'admin';
     CREATE USER grafana WITH PASSWORD 'grafana';
@@ -67,6 +72,7 @@
         trunk TEXT DEFAULT ''
     );
 
+
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_user_id ON ngcp_cdr ("source_user_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_subscriber_id ON ngcp_cdr ("source_subscriber_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_external_contract_id ON ngcp_cdr ("source_external_contract_id");
@@ -96,8 +102,11 @@
     CREATE INDEX IF NOT EXISTS ngcp_cdr_dialog_time ON ngcp_cdr ("dialog_time");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_trunk ON ngcp_cdr ("trunk");
 
+
     CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
     SELECT create_hypertable('ngcp_cdr', 'time', 'trunk');
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO admin;
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO grafana;
-    
+
+
+EOSQL

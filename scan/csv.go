@@ -61,14 +61,6 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 	)
 	for k := range headerColumn {
 		switch headerColumn[k] {
-		case "update_time":
-			t, err := time.Parse("2006-01-02 15:04:05", column[k])
-			if err != nil {
-				logp.Err("%v", err)
-				continue
-			}
-			column[k] = strconv.Itoa(int(t.Unix()))
-
 		case "source_user_id":
 			if column[k] == "0" {
 				direction = "inc"
@@ -98,7 +90,7 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 				continue
 			}
 			initTime = int(t.Unix())
-			column[k] = strconv.Itoa(initTime)
+			//column[k] = strconv.Itoa(initTime)
 
 		case "time":
 			t, err := time.Parse(c.timeFormat, column[k])
@@ -107,7 +99,7 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 				continue
 			}
 			startTime = int(t.Unix())
-			column[k] = strconv.Itoa(startTime)
+			//column[k] = strconv.Itoa(startTime)
 
 		case "duration":
 			f, err := strconv.ParseFloat(column[k], 32)
@@ -117,14 +109,6 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 			}
 			duration = int(math.Round(f))
 			column[k] = strconv.Itoa(duration)
-
-		case "rated_at":
-			t, err := time.Parse("2006-01-02 15:04:05", column[k])
-			if err != nil {
-				logp.Err("%v", err)
-				continue
-			}
-			column[k] = strconv.Itoa(int(t.Unix()))
 
 		case "setup_time":
 			setupTime = startTime - initTime
