@@ -3,15 +3,15 @@ version: '3'
 services:
   grafana:
     image: grafana/grafana:latest
-    restart: always
+    container_name: grafana
+    restart: unless-stopped
     expose:
       - 3000
-    ports:
-      - 3000:3000
 
-  db:
+  timescaledb:
     image: timescale/timescaledb:latest-pg11
-    restart: always
+    container_name: timescaledb
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
@@ -24,38 +24,59 @@ services:
 
   adminer:
     image: adminer:standalone
-    restart: always
+    restart: unless-stopped
     depends_on: 
-      - db
+      - timescaledb
     ports:
       - 8082:8080
 
+  caddy:
+    image: abiosoft/caddy:1.0.0-no-stats
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "8088:8088"
+      - "9090:9090"
+      - "9093:9093"
+    environment:
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./config/Caddyfile:/etc/Caddyfile
+
   redis:
     image: redis
-    restart: always
+    container_name: redis
+    restart: unless-stopped
     volumes:
       - redis:/data
+
   postgres:
-    image: postgres
-    restart: always
+    image: postgres:11-alpine
+    container_name: postgres
+    restart: unless-stopped
     environment:
       POSTGRES_DB: superset
       POSTGRES_PASSWORD: superset
       POSTGRES_USER: superset
     volumes:
       - postgres:/var/lib/postgresql/data
+
   superset:
     image: amancevice/superset
-    restart: always
+    container_name: superset
+    restart: unless-stopped
     depends_on:
       - postgres
       - redis
     environment:
       MAPBOX_API_KEY: ${MAPBOX_API_KEY}
-    ports:
-      - "8088:8088"
+    expose:
+      - 8088
     volumes:
       - ./config/superset_config.py:/etc/superset/superset_config.py
+
 volumes:
   postgres:
   redis:
