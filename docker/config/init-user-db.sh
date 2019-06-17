@@ -39,7 +39,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         peer_auth_realm TEXT DEFAULT '',
         call_type TEXT DEFAULT '',
         call_status TEXT DEFAULT '',
-        call_code SMALLINT DEFAULT 0,
+        call_code TEXT DEFAULT '',
         init_time TIMESTAMP NOT NULL,
         "time" TIMESTAMP NOT NULL,
         duration INTEGER DEFAULT 0,
@@ -107,6 +107,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     SELECT create_hypertable('ngcp_cdr', 'time', 'trunk');
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO admin;
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO grafana;
-
 
 EOSQL
