@@ -5,6 +5,9 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     expose:
       - 3000
 
@@ -17,6 +20,8 @@ services:
       POSTGRES_USER: root
     volumes:
       - ./config/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     expose:
       - 5432
     ports:
@@ -62,6 +67,8 @@ services:
       POSTGRES_USER: superset
     volumes:
       - postgres:/var/lib/postgresql/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
 
   superset:
     image: amancevice/superset
@@ -76,7 +83,10 @@ services:
       - 8088
     volumes:
       - ./config/superset_config.py:/etc/superset/superset_config.py
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
 
 volumes:
   postgres:
   redis:
+    

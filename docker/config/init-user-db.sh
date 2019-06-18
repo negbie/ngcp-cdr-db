@@ -52,8 +52,8 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         source_customer_zone TEXT DEFAULT '',
         source_carrier_detail TEXT DEFAULT '',
         source_customer_detail TEXT DEFAULT '',
-        setup_time INTEGER DEFAULT 0,
-        end_time INTEGER DEFAULT 0,
+        setup_duration INTEGER DEFAULT 0,
+        end_time TIMESTAMP NOT NULL,
         destination_carrier_cost TEXT DEFAULT '',
         destination_customer_cost TEXT DEFAULT '',
         destination_carrier_zone TEXT DEFAULT '',
@@ -65,7 +65,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         source_reseller_cost TEXT DEFAULT '',
         source_reseller_zone TEXT DEFAULT '',
         source_reseller_detail TEXT DEFAULT '',
-        dialog_time INTEGER DEFAULT 0,
+        dialog_duration INTEGER DEFAULT 0,
         destination_reseller_cost TEXT DEFAULT '',
         destination_reseller_zone TEXT DEFAULT '',
         destination_reseller_detail TEXT DEFAULT '',
@@ -95,11 +95,11 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
     CREATE INDEX IF NOT EXISTS ngcp_cdr_time ON ngcp_cdr ("time");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_duration ON ngcp_cdr ("duration");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_call_id ON ngcp_cdr ("call_id");
-    CREATE INDEX IF NOT EXISTS ngcp_cdr_setup_time ON ngcp_cdr ("setup_time");
+    CREATE INDEX IF NOT EXISTS ngcp_cdr_setup_duration ON ngcp_cdr ("setup_duration");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_end_time ON ngcp_cdr ("end_time");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_direction ON ngcp_cdr ("direction");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_prefix ON ngcp_cdr ("prefix");
-    CREATE INDEX IF NOT EXISTS ngcp_cdr_dialog_time ON ngcp_cdr ("dialog_time");
+    CREATE INDEX IF NOT EXISTS ngcp_cdr_dialog_duration ON ngcp_cdr ("dialog_duration");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_trunk ON ngcp_cdr ("trunk");
 
 

@@ -23,11 +23,11 @@ func (c *CSVInput) formHeader(headerColumn []string) ([]string, error) {
 			headerColumn[k] = "time"
 
 		case "source_carrier_free_time":
-			headerColumn[k] = "setup_time"
+			headerColumn[k] = "setup_duration"
 		case "source_customer_free_time":
 			headerColumn[k] = "end_time"
 		case "source_reseller_free_time":
-			headerColumn[k] = "dialog_time"
+			headerColumn[k] = "dialog_duration"
 
 		case "destination_carrier_free_time":
 			headerColumn[k] = "direction"
@@ -49,33 +49,23 @@ func (c *CSVInput) formHeader(headerColumn []string) ([]string, error) {
 // formRecords will do some records manipulations.
 func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 	var (
-		initTime  int
-		startTime int
-		duration  int
-		direction string
-		prefixNum string
-		prefix    string
-		incTrunk  string
-		outTrunk  string
-		setupTime int
+		initTime      int
+		startTime     time.Time
+		startTimeUnix int
+		duration      int
+		srcID         string
+		dstID         string
+		prefixNum     string
+		prefix        string
+		setupTime     int
 	)
 	for k := range headerColumn {
 		switch headerColumn[k] {
 		case "source_user_id":
-			if column[k] == "0" {
-				direction = "inc"
-			}
-
-		case "source_domain":
-			incTrunk = column[k]
+			srcID = column[k]
 
 		case "destination_user_id":
-			if column[k] == "0" {
-				direction = "out"
-			}
-
-		case "destination_domain":
-			outTrunk = column[k]
+			dstID = column[k]
 
 		case "destination_user":
 			prefixNum = column[k]
@@ -98,7 +88,8 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 				logp.Err("%v", err)
 				continue
 			}
-			startTime = int(t.Unix())
+			startTime = t
+			startTimeUnix = int(t.Unix())
 			//column[k] = strconv.Itoa(startTime)
 
 		case "duration":
@@ -110,14 +101,15 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 			duration = int(math.Round(f))
 			column[k] = strconv.Itoa(duration)
 
-		case "setup_time":
-			setupTime = startTime - initTime
+		case "setup_duration":
+			setupTime = startTimeUnix - initTime
 			column[k] = strconv.Itoa(setupTime)
 
 		case "end_time":
-			column[k] = strconv.Itoa(startTime + duration)
+			//column[k] = strconv.Itoa(startTimeUnix + duration)
+			column[k] = startTime.Add(time.Duration(duration) * time.Second).Format(c.timeFormat)
 
-		case "dialog_time":
+		case "dialog_duration":
 			column[k] = strconv.Itoa(setupTime + duration)
 
 		case "prefix":
@@ -127,13 +119,22 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 			}
 
 		case "direction":
-			column[k] = direction
+			if srcID == "0" {
+				column[k] = "inc"
+			}
+			if dstID == "0" {
+				column[k] = "out"
+			}
+			if srcID == "0" && dstID == "0" {
+				column[k] = "tra"
+			}
+			if srcID != "0" && dstID != "0" {
+				column[k] = "int"
+			}
 
 		case "trunk":
-			column[k] = incTrunk
-			if direction == "out" {
-				column[k] = outTrunk
-			}
+			column[k] = ""
+
 		}
 	}
 
