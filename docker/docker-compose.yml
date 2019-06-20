@@ -51,7 +51,7 @@ services:
       - ./config/Caddyfile:/etc/Caddyfile
 
   redis:
-    image: redis
+    image: redis:5
     container_name: redis
     restart: unless-stopped
     volumes:
@@ -71,18 +71,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   superset:
-    image: amancevice/superset
+    image: negbie/superset-docker:0.32.0rc2
     container_name: superset
     restart: unless-stopped
     depends_on:
       - postgres
       - redis
     environment:
-      MAPBOX_API_KEY: ${MAPBOX_API_KEY}
-    expose:
-      - 8088
+      POSTGRES_DB: superset
+      POSTGRES_USER: superset
+      POSTGRES_PASSWORD: superset
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     volumes:
-      - ./config/superset_config.py:/etc/superset/superset_config.py
+      - ./config/superset_config.py:/usr/app/superset/incubator-superset-0.32.0rc2/superset/superset_config.py
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 
