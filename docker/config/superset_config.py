@@ -90,7 +90,7 @@ EMAIL_REPORT_BCC_ADDRESS = None
 # This user should have permissions to browse all the dashboards and
 # slices.
 # TODO: In the future, login as the owner of the item to generate reports
-EMAIL_REPORTS_USER = 'admin'
+EMAIL_REPORTS_USER = 'superset'
 EMAIL_REPORTS_SUBJECT_PREFIX = '[Report] '
 
 # The webdriver to use for generating reports. Use one of the following
