@@ -65,7 +65,7 @@ from werkzeug.contrib.cache import RedisCache
 RESULTS_BACKEND = RedisCache(
     host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
 
-WEBDRIVER_BASEURL = 'https://0.0.0.0:8088/'
+WEBDRIVER_BASEURL = 'http://0.0.0.0:8088/'
 # Enable / disable scheduled email reports
 ENABLE_SCHEDULED_EMAIL_REPORTS = True
 

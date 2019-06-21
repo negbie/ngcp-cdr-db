@@ -23,8 +23,8 @@ type Configuration struct {
 	CSVQueueSize   int           `default:"20000"`
 	WatchFolder    string        `default:"./example/rated"`
 	WatchRecursive bool          `default:"false"`
-	WatchMaxEvent  int           `default:"20"`
-	WatchTime      time.Duration `default:"2000ms"`
+	WatchMaxEvent  int           `default:"30"`
+	WatchTime      time.Duration `default:"5s"`
 	LogDbg         string        `default:""`
 	LogLvl         string        `default:"info"`
 	LogStd         bool          `default:"false"`
