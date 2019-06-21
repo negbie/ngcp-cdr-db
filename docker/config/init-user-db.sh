@@ -104,7 +104,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 
 
     CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
-    SELECT create_hypertable('ngcp_cdr', 'time', 'trunk');
+    SELECT create_hypertable('ngcp_cdr', 'time', chunk_time_interval => interval '1 day');
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO admin;
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO grafana;
 
