@@ -26,8 +26,8 @@ func Start(f func(string), shut chan struct{}) {
 							continue
 						}
 					} else {
-						// We got a new file, scan it.
-						if strings.Contains(event.Name(), ".cdr") {
+						// We got a new file, scan it. Ignore .gz
+						if strings.HasSuffix(event.Name(), ".cdr") {
 							logp.Info("scan file %s", event.Path)
 							f(event.Path)
 						}
