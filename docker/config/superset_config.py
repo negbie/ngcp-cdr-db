@@ -68,6 +68,7 @@ RESULTS_BACKEND = RedisCache(
 WEBDRIVER_BASEURL = 'http://0.0.0.0:8088/'
 # Enable / disable scheduled email reports
 ENABLE_SCHEDULED_EMAIL_REPORTS = True
+ENABLE_PROXY_FIX = True
 
 # If enabled, certail features are run in debug mode
 # Current list:
