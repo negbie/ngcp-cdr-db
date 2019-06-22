@@ -100,7 +100,7 @@ func (dbo *DBObject) insert(rows chan []string) {
 		// Start SQL transaction.
 		tx, err := dbo.db.Begin()
 		if err != nil || tx == nil {
-			logp.Err("%v", err)
+			logp.Err("tx begin %v", err)
 			select {
 			case rows <- r:
 			default:
@@ -113,10 +113,10 @@ func (dbo *DBObject) insert(rows chan []string) {
 		copyCmd := fmt.Sprintf("COPY %s(%s) FROM STDIN WITH DELIMITER %s %s", dbo.tableName, r[0], dbo.delimStr, dbo.copyOpts)
 		stmt, err := tx.Prepare(copyCmd)
 		if err != nil {
-			logp.Err("%v", err)
+			logp.Err("tx prepare %v", err)
 			err := tx.Rollback()
 			if err != nil {
-				logp.Err("%v", err)
+				logp.Err("tx rollback %v", err)
 			}
 			continue
 		}
@@ -139,7 +139,7 @@ func (dbo *DBObject) insert(rows chan []string) {
 				_, err = stmt.Exec(line)
 			}
 			if err != nil {
-				logp.Err("%v", err)
+				logp.Err("stmt exec %v", err)
 			}
 		}
 		// Raise stats counter.
@@ -149,13 +149,13 @@ func (dbo *DBObject) insert(rows chan []string) {
 
 		err = stmt.Close()
 		if err != nil {
-			logp.Err("%v", err)
+			logp.Err("stmt close %v", err)
 		}
 
 		// Commit SQL transaction.
 		err = tx.Commit()
 		if err != nil {
-			logp.Err("%v", err)
+			logp.Err("tx commit %v", err)
 		}
 
 		end := time.Now().Sub(start)
