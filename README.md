@@ -6,11 +6,25 @@ Is a simple program which scans a configurable folder for new sipwise cdr's and 
 cd docker  
 sudo docker-compose up -d  
 ```
-Download ngcp-cdr-db from releases or compile it. Run it with the flags you need.
+Download ngcp-cdr-db from releases and start it
+```bash
+ chmod +x ngcp-cdr-db
+ ./ngcp-cdr-db -logstd -watchfolder /your/cdr/folder
+```
 
 ## Usage
-go to localhost:8088  
-login with superset/superset  
+go to localhost:8088 and login with superset/superset  
+go to Sources->Databases-> Add a new record  
+* Database: vmess  
+* SQLAlchemy URI: postgres://root:root@timescaledb/vmess
+
+go to Sources->Tables-> Add a new record
+* Database: vmess
+* Table Name: ngcp_cdr
+
+go to SQL Lab-> SQL Editor
+* select vmess
+* run SELECT * from ngcp_cdr;
 
 ## Flags
 ```bash
