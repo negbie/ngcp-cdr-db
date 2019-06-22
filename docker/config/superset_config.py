@@ -110,7 +110,8 @@ SMTP_USER = 'superset'
 SMTP_PORT = 465 #465 , 587
 SMTP_PASSWORD = 'superset'
 SMTP_MAIL_FROM = 'superset@superset.com'
-SECRET_KEY = 'superset'
+
+SECRET_KEY = 'aLOOOONGrandomstringhere111!!!11!!!'
 ROW_LIMIT = 100
 SQL_MAX_ROW = 500
 VIZ_ROW_LIMIT = 500

@@ -14,6 +14,7 @@ type Configuration struct {
 	CDRDBPass      string        `default:"root"`
 	CDRDBTable     string        `default:"ngcp_cdr"`
 	CDRDBSchema    string        `default:"public"`
+	CDRDBRotate    string        `default:"3 months"`
 	CSVTimeColumn  string        `default:"start_time"`
 	CSVTimeFormat  string        `default:"2006-01-02 15:04:05.999"`
 	CSVCopyOpts    string        `default:"CSV HEADER"`

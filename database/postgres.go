@@ -10,6 +10,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/negbie/logp"
 	"github.com/negbie/ngcp-cdr-db/config"
+	"github.com/robfig/cron"
 )
 
 type DBObject struct {
@@ -47,6 +48,7 @@ func (dbo *DBObject) setup() error {
 
 	// Start stats reporting function.
 	go dbo.report()
+	go dbo.rotate(config.Setting.CDRDBRotate, config.Setting.CDRDBTable)
 
 	return nil
 }
@@ -181,4 +183,23 @@ func (dbo *DBObject) report() {
 		prevRowCount = rCount
 		prevTime = now
 	}
+}
+
+func (dbo *DBObject) rotate(r, t string) {
+	if r != "" && t != "" {
+		dc := cron.New()
+		dc.AddFunc("0 30 03 * * *", func() {
+			if err := dbo.dropChunks(r, t); err != nil {
+				logp.Err("%v", err)
+			}
+			logp.Info("next rotate will be at %v\n", time.Now().Add(time.Hour*24+1))
+		})
+		dc.Start()
+	}
+}
+
+func (dbo *DBObject) dropChunks(r, t string) error {
+	q := fmt.Sprintf("SELECT drop_chunks(interval '%s', '%s');", r, t)
+	_, err := dbo.db.Exec(q)
+	return err
 }
