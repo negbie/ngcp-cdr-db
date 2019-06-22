@@ -71,7 +71,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
   superset:
-    image: negbie/superset-docker:0.33.0rc1
+    image: negbie/superset-docker:git
     container_name: superset
     restart: unless-stopped
     depends_on:
@@ -86,7 +86,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
     volumes:
-      - ./config/superset_config.py:/usr/app/superset/incubator-superset-0.33.0rc1/superset/superset_config.py
+      - ./config/superset_config.py:/usr/app/superset/superset/superset_config.py
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 
