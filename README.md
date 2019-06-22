@@ -12,7 +12,7 @@ Download ngcp-cdr-db from releases and start it
  ./ngcp-cdr-db -logstd -watchfolder /your/cdr/folder
 ```
 
-Wait for new cdr's or paste some into /your/cdr/folder
+ngcp-cdr-db will only pickup new cdr files so wait for new cdr's or paste some into /your/cdr/folder
 
 ## Usage
 go to localhost:8088 and login with superset/superset  
