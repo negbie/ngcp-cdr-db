@@ -12,6 +12,8 @@ Download ngcp-cdr-db from releases and start it
  ./ngcp-cdr-db -logstd -watchfolder /your/cdr/folder
 ```
 
+Wait for new cdr's or paste some into /your/cdr/folder
+
 ## Usage
 go to localhost:8088 and login with superset/superset  
 go to Sources->Databases-> Add a new record  
