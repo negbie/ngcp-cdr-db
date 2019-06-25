@@ -22,16 +22,22 @@ type CSVInput struct {
 	csvChan    chan []string
 	shut       chan struct{}
 	batchSize  int
+	owner      string
 	timeColumn string
 	timeFormat string
 }
 
 // NewCSV creates a new CSVInput object
 func NewCSV() *CSVInput {
+	o := config.Setting.CSVOwner
+	if o == "" {
+		o, _ = os.Hostname()
+	}
 	return &CSVInput{
 		csvChan:    make(chan []string, config.Setting.CSVQueueSize),
 		shut:       make(chan struct{}),
 		batchSize:  config.Setting.CSVBatchSize,
+		owner:      o,
 		timeColumn: config.Setting.CSVTimeColumn,
 		timeFormat: config.Setting.CSVTimeFormat,
 	}

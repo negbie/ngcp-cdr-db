@@ -34,7 +34,7 @@ func (c *CSVInput) formHeader(headerColumn []string) ([]string, error) {
 		case "destination_customer_free_time":
 			headerColumn[k] = "prefix"
 		case "destination_reseller_free_time":
-			headerColumn[k] = "trunk"
+			headerColumn[k] = "owner"
 		}
 	}
 
@@ -132,9 +132,8 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 				column[k] = "int"
 			}
 
-		case "trunk":
-			column[k] = ""
-
+		case "owner":
+			column[k] = c.owner
 		}
 	}
 

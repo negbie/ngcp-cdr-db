@@ -64,7 +64,7 @@
         destination_reseller_cost TEXT DEFAULT '',
         destination_reseller_zone TEXT DEFAULT '',
         destination_reseller_detail TEXT DEFAULT '',
-        trunk TEXT DEFAULT ''
+        "owner" TEXT DEFAULT ''
     );
 
 
@@ -95,7 +95,7 @@
     CREATE INDEX IF NOT EXISTS ngcp_cdr_direction ON ngcp_cdr ("direction");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_prefix ON ngcp_cdr ("prefix");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_dialog_duration ON ngcp_cdr ("dialog_duration");
-    CREATE INDEX IF NOT EXISTS ngcp_cdr_trunk ON ngcp_cdr ("trunk");
+    CREATE INDEX IF NOT EXISTS ngcp_cdr_owner ON ngcp_cdr ("owner");
 
 
     CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;

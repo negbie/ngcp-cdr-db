@@ -14,7 +14,7 @@ import (
 	"github.com/negbie/ngcp-cdr-db/scan"
 )
 
-const version = "0.8"
+const version = "0.81"
 
 type processor interface {
 	Run()
