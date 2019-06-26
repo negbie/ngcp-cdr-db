@@ -72,6 +72,9 @@ func (c *CSVInput) formRecords(headerColumn, column []string) []string {
 
 		case "destination_user_in":
 			prefix = strings.TrimSuffix(prefixNum, column[k])
+			if prefix == "+" || prefix == prefixNum {
+				prefix = ""
+			}
 
 		case "init_time":
 			t, err := time.Parse(c.timeFormat, column[k])
