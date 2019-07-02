@@ -118,10 +118,13 @@ func (c *CSVInput) Run() {
 				continue
 			}
 
-			if len(rec[i]) != len(headers) {
-				if len(rec[i]) > 1 {
-					logp.Err("row length(%d) != header length(%d)", len(rec[i]), len(headers))
-				}
+			lr := len(rec[i])
+			lh := len(headers)
+			if lr > lh {
+				logp.Warn("column length(%d) > header length(%d) use [0:%d] for row %d:\n%s", lr, lh, lh, i+1, rec[i])
+				logp.Warn("discard values %s", rec[i][lh:])
+				rec[i] = rec[i][:lh]
+			} else if lr < lh {
 				continue
 			}
 
