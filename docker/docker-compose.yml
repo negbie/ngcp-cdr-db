@@ -36,7 +36,7 @@ services:
       - 8082:8080
 
   caddy:
-    image: abiosoft/caddy:1.0.0-no-stats
+    image: abiosoft/caddy:1.0.3-no-stats
     container_name: caddy
     restart: unless-stopped
     ports:
