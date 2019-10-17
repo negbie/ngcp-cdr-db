@@ -70,7 +70,6 @@
 
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_user_id ON ngcp_cdr ("source_user_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_subscriber_id ON ngcp_cdr ("source_subscriber_id");
-    CREATE INDEX IF NOT EXISTS ngcp_cdr_source_external_contract_id ON ngcp_cdr ("source_external_contract_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_account_id ON ngcp_cdr ("source_account_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_user ON ngcp_cdr ("source_user");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_domain ON ngcp_cdr ("source_domain");
@@ -78,7 +77,6 @@
     CREATE INDEX IF NOT EXISTS ngcp_cdr_source_ip ON ngcp_cdr ("source_ip");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_user_id ON ngcp_cdr ("destination_user_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_subscriber_id ON ngcp_cdr ("destination_subscriber_id");
-    CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_external_contract_id ON ngcp_cdr ("destination_external_contract_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_account_id ON ngcp_cdr ("destination_account_id");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_user ON ngcp_cdr ("destination_user");
     CREATE INDEX IF NOT EXISTS ngcp_cdr_destination_domain ON ngcp_cdr ("destination_domain");
@@ -99,6 +97,6 @@
 
 
     CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
-    SELECT create_hypertable('ngcp_cdr', 'time', chunk_time_interval => interval '1 day');
+    SELECT create_hypertable('ngcp_cdr', 'time', chunk_time_interval => interval '72 hours');
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO admin;
     GRANT ALL PRIVILEGES ON TABLE ngcp_cdr TO grafana;
